@@ -9,7 +9,7 @@ concurrency:
   cancel-in-progress: true
   
 jobs:
- build:
+ comment:
    runs-on: ubuntu-latest
    steps:
      - name: Check branch  # scans for new PRs
