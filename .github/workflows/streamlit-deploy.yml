@@ -1,0 +1,39 @@
+on:
+  pull_request:
+    types: [opened]
+    
+# Avoid duplicate workflows on same branch
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+  
+jobs:
+ runs-on: ubuntu-latest
+ 
+ - name: Check branch  # scans for new PRs
+  if: startsWith(github.event.pull_request.head.ref, 'develop')
+  run: echo "Pull request is from the correct branch"
+ 
+ - name: Post comment
+   uses: actions/github-script@v3
+   env:
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+   with:
+    script: |
+      const octokit = require('@octokit/rest')()
+      octokit.authenticate({
+        type: 'token',
+        token: process.env.GITHUB_TOKEN
+      })
+
+      const comment = `
+      Thanks for the pull request! You can deploy this app using Streamlit with the following link:
+      [Deploy with Streamlit](https://www.streamlit.io/deploy?repo=${process.env.GITHUB_REPOSITORY}&branch=${process.env.GITHUB_REF})
+      `
+
+      octokit.issues.createComment({
+        owner: process.env.GITHUB_REPOSITORY_OWNER,
+        repo: process.env.GITHUB_REPOSITORY,
+        issue_number: github.event.pull_request.number,
+        body: comment
+      })
