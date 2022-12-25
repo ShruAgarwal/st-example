@@ -22,5 +22,5 @@ jobs:
          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
          message: |
            Thanks for the pull request! You can deploy this app using Streamlit with the following link:
-           [Deploy with Streamlit](https://www.streamlit.io/deploy?repo=${GITHUB_REPOSITORY}&branch=${GITHUB_REF})
+           [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/deploy?repository=${{ github.repository }}&branch=${{ github.ref }}&mainModule=streamlit_app.py)
            
