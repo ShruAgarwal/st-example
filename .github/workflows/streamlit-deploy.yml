@@ -13,8 +13,9 @@ jobs:
  comment:
    runs-on: ubuntu-latest
    steps:
-     - name: Check branch  # scans for new PRs on 'develop' branch
-       if: startsWith(github.event.pull_request.head.ref, 'develop')
+     - name: Check branch  # scans for new PRs on 'develop' related branch
+       id: extract_branch
+       if: startsWith(github.event.pull_request.head.ref, 'develop/*')
        run: echo "Pull request is from the correct branch"
  
      - name: Post comment
@@ -23,5 +24,5 @@ jobs:
          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
          message: |     # repo & branch paths are input query params for deploy dialog
            Thanks for the pull request! 
-           You can now deploy this app using Streamlit here 👉 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/deploy?repository=${{ github.repository }}&branch=${{ github.branch }}&mainModule=streamlit_app.py)
+           You can now deploy this app using Streamlit here 👉 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/deploy?repository=${{ github.repository }}&branch=${{ steps.extract_branch.outputs.branch }}&mainModule=streamlit_app.py)
            
