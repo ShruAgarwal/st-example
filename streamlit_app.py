@@ -6,9 +6,15 @@ st.title('🎈 Streamlit Example App')
 
 st.write('Hello world!')
 
-# Display chart
-chart_data = pd.DataFrame(
-    np.random.randn(20, 3),
-    columns=['a', 'b', 'c'])
+# Input widgets inside column container
+col1, col2 = st.columns(2, gap="medium")
+with col1:
+    genre = st.radio(
+        "What\'s your favorite movie genre",
+        ('Comedy', 'Drama', 'Documentary', 'Romance', 'Action', 'Suspense'))
 
-st.area_chart(chart_data)
+    st.write(f"You choose {genre}")
+
+with col2:
+    if st.button('Click for magic! ✨'):
+        st.snow()
