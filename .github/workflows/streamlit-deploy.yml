@@ -14,7 +14,7 @@ jobs:
    runs-on: ubuntu-latest
    steps:
      - name: Check branch  # scans for new PRs on 'develop' related branch
-       if: startsWith(github.event.pull_request.head.ref, 'develop/*')
+       if: startsWith(github.event.pull_request.head.ref, 'develop/**')
        run: echo "Pull request is from the correct branch"
  
      - name: Post comment
